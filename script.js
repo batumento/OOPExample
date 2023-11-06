@@ -87,22 +87,6 @@ ford.accelerate();
 ford.accelerate();
 ford.brake();
 
-//////This is a small experiment I did to understand the working logic of inheritance between classes in Javascript.
-
-//Inheritence between classes with constructor functions
-//Constructor Function
-const Fighter = function (dmg = 0, walk = 0) {
-  this.dmg = dmg;
-  this.walk = dmg;
-};
-//Functions
-Fighter.prototype.infoWalk = function () {
-  console.log(`Your walk speed: ${this.walk}`);
-};
-Fighter.prototype.hasDamage = function () {
-  console.log(`Your have damage ${this.dmg}`);
-};
-
 const Person = function (firstName, birthYear) {
   this.firstName = firstName;
   this.birthYear = birthYear;
@@ -303,6 +287,23 @@ eBoat.accelerate().accelerate().brake();
 
 //
 //Constructor Function
+
+//This is a small experiment I did to understand the working logic of inheritance between classes in Javascript.
+
+//Inheritence between classes with constructor functions
+//Constructor Function
+const Fighter = function (dmg = 0, walk = 0) {
+  this.dmg = dmg;
+  this.walk = dmg;
+};
+//Functions
+Fighter.prototype.infoWalk = function () {
+  console.log(`Your walk speed: ${this.walk}`);
+};
+Fighter.prototype.hasDamage = function () {
+  console.log(`Your have damage ${this.dmg}`);
+};
+
 const SwordP = function (dmg, walk, typeSword, attackSpeed) {
   Fighter.call(this, dmg, walk);
   this.typeSword = typeSword;
@@ -326,5 +327,48 @@ console.log(
 /////
 
 //ES6 Classes
+class FighterCl {
+  constructor(dmg = 0, walk = 0) {
+    this.dmg = dmg;
+    this.walk = dmg;
+  }
+  #infoWalk() {
+    console.log(`Your walk speed: ${this.walk}`);
+  }
 
-/////
+  hasDamage() {
+    console.log(`Your have damage ${this.dmg}`);
+    return this;
+  }
+  allCharacterInfo() {
+    this.#infoWalk();
+    this.hasDamage();
+    return this;
+  }
+}
+
+class SwordManCl extends FighterCl {
+  #attackSpeed;
+  #attackRange;
+  constructor(dmg, walk, attackSpeed, attackRange) {
+    super(dmg, walk);
+    this.#attackSpeed = attackSpeed;
+    this.#attackRange = attackRange;
+  }
+  #attackSpeedInfo() {
+    console.log(`Attack Speed: ${this.#attackSpeed}`);
+  }
+  #attackRangeInfo() {
+    console.log(`Attack Range: ${this.#attackRange}`);
+  }
+  allAttackInfo() {
+    this.#attackSpeedInfo();
+    this.#attackRangeInfo();
+    return this;
+  }
+}
+
+const duelSword = new SwordManCl(55, 78, 1.5, 1.2);
+console.log(duelSword);
+duelSword.allAttackInfo();
+duelSword.allCharacterInfo();
