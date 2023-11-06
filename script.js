@@ -236,9 +236,72 @@ acc1.withdraw(76);
 console.log(acc1);
 
 //Challenge
+class VehicleCl {
+  constructor(make, speedUS) {
+    this.make = make;
+    this.speedUS = speedUS;
+  }
+  #speedInfo() {
+    console.log(`${this.make} is going at ${this.speedUS} km/h`);
+  }
+  accelerate() {
+    this._speedUS += 10;
+    this.#speedInfo();
+    return this;
+  }
 
-///ChallengeEnd
+  brake() {
+    this._speedUS -= 5;
+    this.#speedInfo();
+    return this;
+  }
 
+  set speedUS(speed) {
+    //Converts it to km/h
+    this._speedUS = Math.floor(speed * 1.6);
+  }
+  get speedUS() {
+    //Converts it to mil/h
+    return Math.floor(this._speedUS / 1.6);
+  }
+}
+
+class BoatEVCl extends VehicleCl {
+  #charge;
+  constructor(make, speedUS, charge) {
+    super(make, speedUS);
+    this.#charge = charge;
+  }
+  chargeBattery(charge) {
+    this.#charge += charge;
+    return this;
+  }
+  accelerate() {
+    this.speedUS += 20;
+    this.#charge--;
+    console.log(
+      `${this.make} is going at ${this.speedUS} km/h, with a charge of ${
+        this.#charge
+      }`
+    );
+    return this;
+  }
+  brake() {
+    this.speedUS -= 10;
+    this.#charge++;
+    console.log(
+      `${this.make} is going at ${this.speedUS} km/h, with a charge of ${
+        this.#charge
+      }`
+    );
+    return this;
+  }
+}
+const eBoat = new BoatEVCl('E-Bu', 187, 76);
+console.log(eBoat.speedUS);
+eBoat.accelerate().accelerate().brake();
+
+//
 //Constructor Function
 const SwordP = function (dmg, walk, typeSword, attackSpeed) {
   Fighter.call(this, dmg, walk);
@@ -255,17 +318,11 @@ SwordP.prototype.attackSpeed = function () {
 const swordsMan = new SwordP(10, 15, 'DuelSword', 2.5);
 const fighter = new Fighter();
 
-//2.
 SwordP.prototype.constructor = SwordP;
-console.dir(SwordP.prototype.constructor);
-
-console.log(`The prototype Fighter object: `, fighter.__proto__);
 console.log(
   `Object with the same prototype as SwordP constructor function : `,
   swordsMan.__proto__
 );
-swordsMan.hasDamage();
-swordsMan.infoWalk();
 /////
 
 //ES6 Classes
